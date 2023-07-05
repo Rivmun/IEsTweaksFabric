@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "ietweaksfabric",
+  "version": "${version}",
+
+  "name": "IE's Tweaks (Fabric)",
+  "description": "An unofficial fabric (pure mixin) impl of IE's Tweaks.",
+  "authors": [
+    "Rimo",
+    "InfernalEclipse"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ies-tweaks-fabric",
+    "sources": "https://github.com/Rivmun/IEsTweaksFabric",
+    "issues": "https://github.com/Rivmun/IEsTweaksFabric/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/ietweaksfabric/icon.png",
+
+  "environment": "*",
+  "mixins": [
+    "ietweaksfabric.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.2",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

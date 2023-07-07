@@ -23,6 +23,6 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
      */
     @Inject(at = @At("TAIL"), method = "wakeUp")
     public void wakeUp(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
-        this.getHungerManager().setFoodLevel(this.getHungerManager().getFoodLevel() - 3);
+        this.getHungerManager().setFoodLevel(this.getHungerManager().getFoodLevel() - 6);
     }
 }

@@ -1,6 +1,6 @@
 # IE's Tweaks (Fabric)
 
-An authorized fabric implementation of [IE's Tweaks](https://www.curseforge.com/minecraft/mc-mods/ies-tweaks) made by [infernalEclipse](https://legacy.curseforge.com/members/InfernalEclipse/projects). Permission is [here](misc/Porting%20permission.png).
+An authorized fabric implementation of [IE's Tweaks](https://www.curseforge.com/minecraft/mc-mods/ies-tweaks) made by [InfernalEclipse](https://legacy.curseforge.com/members/InfernalEclipse/projects). Permission is [here](misc/Porting%20permission.png).
 
 A little server-side mod that make some small tweaks for vanilla Minecraft to more immersive gameplay.
 

@@ -32,15 +32,15 @@ public abstract class LivingEntityMixin {
 			cir.setReturnValue(cir.getReturnValue() + 0.2f);
 	}
 
-    @Shadow
-    public abstract boolean addStatusEffect(StatusEffectInstance effect);
+	@Shadow
+	public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
-    /*
-     * Player get blindness when damaged over 6 points health.
-     */
+	/*
+	 * Player get blindness when damaged over 6 points health.
+	 */
 	@Inject(at = @At("HEAD"), method = "setHealth")
 	public void setHealth(float health, CallbackInfo ci) {
-		if (((LivingEntity) (Object) this) instanceof ServerPlayerEntity player && player.networkHandler != null && player.getHealth() - health > 6f)
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60));
+		if (((LivingEntity) (Object) this) instanceof ServerPlayerEntity player && player.networkHandler != null && (player.getHealth() - health) / player.getMaxHealth() > 0.33f)
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60));
 	}
 }

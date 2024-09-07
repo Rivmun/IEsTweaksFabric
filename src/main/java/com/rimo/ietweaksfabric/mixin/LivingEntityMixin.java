@@ -51,7 +51,7 @@ public abstract class LivingEntityMixin {
 	@Inject(at = @At("RETURN"), method = "computeFallDamage")
 	public void computeFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
 		int i = cir.getReturnValue();
-		if (i != 0)
+		if (i > 0)
 			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, Math.max(60, i * 10), Math.min(4, i / 4)));
 	}
 }

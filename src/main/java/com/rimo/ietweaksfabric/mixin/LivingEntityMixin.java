@@ -36,7 +36,7 @@ public abstract class LivingEntityMixin {
 	public abstract boolean addEffect(MobEffectInstance mobEffectInstance);
 
 	/*
-	 * Player get blindness when damaged over 6 points health.
+	 * Player get blindness when damaged 1/3 health.
 	 */
 	@Inject(at = @At("HEAD"), method = "setHealth")
 	public void iet$setHealth(float health, CallbackInfo ci) {

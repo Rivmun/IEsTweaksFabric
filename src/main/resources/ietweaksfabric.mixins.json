@@ -2,11 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.rimo.ietweaksfabric.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AnimalEntityMixin",
+    "AnimalMixin",
     "LivingEntityMixin",
-    "ServerWorldMixin"
+    "ServerLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

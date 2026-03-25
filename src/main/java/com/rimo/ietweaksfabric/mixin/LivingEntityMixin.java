@@ -1,14 +1,14 @@
 package com.rimo.ietweaksfabric.mixin;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,39 +19,38 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 	@Inject(at = @At("RETURN"), method = "getAttributeValue", cancellable = true)
-	public void getAttributeValue(RegistryEntry<EntityAttribute> attribute, CallbackInfoReturnable<Double> cir) {
+	public void iet$getAttributeValue(Holder<Attribute> holder, CallbackInfoReturnable<Double> cir) {
 		/*
 		 * Horse 20% faster.
-		 * (IDEA mark these lines as warning, just ignored... or add a parameter to catch the 'instanceof' result. But it's no sense.)
 		 */
-		if (((LivingEntity) (Object) this) instanceof AbstractHorseEntity a && attribute.getKey().equals(EntityAttributes.MOVEMENT_SPEED.getKey()))
+		if (((LivingEntity) (Object) this) instanceof AbstractHorse && holder.unwrapKey().equals(Attributes.MOVEMENT_SPEED.unwrapKey()))
 			cir.setReturnValue(cir.getReturnValue() * 1.2f);
 		/*
 		 * Zombie 20% unknockbackable.
 		 */
-		if (((LivingEntity) (Object) this) instanceof ZombieEntity a && attribute.getKey().equals(EntityAttributes.KNOCKBACK_RESISTANCE.getKey()))
+		if (((LivingEntity) (Object) this) instanceof Zombie && holder.unwrapKey().equals(Attributes.KNOCKBACK_RESISTANCE.unwrapKey()))
 			cir.setReturnValue(cir.getReturnValue() + 0.2f);
 	}
 
 	@Shadow
-	public abstract boolean addStatusEffect(StatusEffectInstance effect);
+	public abstract boolean addEffect(MobEffectInstance mobEffectInstance);
 
 	/*
 	 * Player get blindness when damaged over 6 points health.
 	 */
 	@Inject(at = @At("HEAD"), method = "setHealth")
-	public void setHealth(float health, CallbackInfo ci) {
-		if (((LivingEntity) (Object) this) instanceof ServerPlayerEntity player && player.networkHandler != null && (player.getHealth() - health) / player.getMaxHealth() > 0.33f)
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60));
+	public void iet$setHealth(float health, CallbackInfo ci) {
+		if (((LivingEntity) (Object) this) instanceof ServerPlayer player && player.connection != null && (player.getHealth() - health) / player.getMaxHealth() > 0.33f)
+			this.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60));
 	}
 
 	/*
 	 * Player get slowness when get fall damage.
 	 */
-	@Inject(at = @At("RETURN"), method = "computeFallDamage")
-	public void computeFallDamage(double fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
+	@Inject(at = @At("RETURN"), method = "calculateFallDamage")
+	public void iet$calculateFallDamage(double fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
 		int i = cir.getReturnValue();
 		if (i > 0)
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, Math.max(60, i * 10), Math.min(4, i / 4)));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, Math.max(60, i * 10), Math.min(4, i / 4)));
 	}
 }
